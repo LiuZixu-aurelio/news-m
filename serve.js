@@ -1,5 +1,5 @@
 const express = require('express')
-
+const Mock = require('mockjs')
 const app = express()
 
 // 解决跨域问题
@@ -21,7 +21,7 @@ const ob = {
 }
 const data3 = JSON.stringify(ob)
 
-const list1 = {
+const list1 = Mock.mock({
   data: {
     channels: [
       { id: 0, name: '首页' },
@@ -32,8 +32,25 @@ const list1 = {
       { id: 6, name: '国际' }
     ]
   }
-}
+})
+
+const list2 = Mock.mock({
+  data: {
+    page: 1,
+    per_page: 10,
+    results: [
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ },
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ },
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ },
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ },
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ },
+      { 'art_id|1-10': 1, 'title|5-20': /[a-z]/, 'aut_name|5-20': /[a-z]/ }
+    ]
+  }
+})
 const data4 = JSON.stringify(list1)
+
+const data5 = JSON.stringify(list2)
 
 app.get('/', (req, res) => {
   res.end(data)
@@ -57,5 +74,10 @@ app.get('/app/v1_0/authorizations', (req, res) => {
 app.get('/app/v1_0/sms/channels', (req, res) => {
   res.end(data4)
   console.log('列表请求')
+})
+
+app.get('/app/v1_1/articles', (req, res) => {
+  res.end(data5)
+  console.log('列表内容请求')
 })
 app.listen(3000)
